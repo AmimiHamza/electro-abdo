@@ -1,0 +1,21 @@
+import { prisma } from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET() {
+  try {
+    const faqs = await prisma.fAQ.findMany({ orderBy: { order: "asc" } });
+    return NextResponse.json(faqs);
+  } catch {
+    return NextResponse.json([], { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const faq = await prisma.fAQ.create({ data: body });
+    return NextResponse.json(faq, { status: 201 });
+  } catch {
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
+  }
+}

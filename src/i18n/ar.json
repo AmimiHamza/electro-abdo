@@ -1,0 +1,179 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "categories": "الفئات",
+    "offers": "العروض",
+    "search": "بحث",
+    "cart": "سلة التسوق",
+    "favorites": "المفضلة",
+    "about": "من نحن",
+    "faq": "الأسئلة الشائعة",
+    "menu": "القائمة",
+    "close": "إغلاق"
+  },
+  "home": {
+    "hero_cta": "اكتشف",
+    "categories_title": "تصفح الفئات",
+    "categories_subtitle": "اعثر على ما تحتاجه",
+    "offers_title": "عروض خاصة",
+    "offers_subtitle": "لا تفوّت هذه الصفقات الرائعة",
+    "new_arrivals_title": "وصل حديثاً",
+    "new_arrivals_subtitle": "أحدث المنتجات المتوفرة",
+    "trending_title": "الأكثر رواجاً",
+    "trending_subtitle": "الأكثر مشاهدة الآن",
+    "brands_title": "علاماتنا التجارية",
+    "why_us_title": "لماذا تختارنا؟",
+    "testimonials_title": "آراء عملائنا",
+    "see_all": "عرض الكل",
+    "see_all_offers": "عرض جميع العروض"
+  },
+  "product": {
+    "add_to_cart": "أضف إلى السلة",
+    "add_to_favorites": "أضف إلى المفضلة",
+    "remove_from_favorites": "إزالة من المفضلة",
+    "quick_view": "معاينة سريعة",
+    "view_details": "عرض التفاصيل",
+    "share": "مشاركة",
+    "share_whatsapp": "مشاركة عبر واتساب",
+    "copy_link": "نسخ الرابط",
+    "in_stock": "متوفر",
+    "out_of_stock": "غير متوفر",
+    "new": "جديد",
+    "offer": "عرض",
+    "warranty": "ضمان",
+    "description": "الوصف",
+    "specifications": "المواصفات",
+    "delivery": "التوصيل",
+    "related_products": "منتجات مشابهة",
+    "recently_viewed": "شاهدتها مؤخراً",
+    "starting_from": "يبدأ من",
+    "quantity": "الكمية"
+  },
+  "cart": {
+    "title": "سلة التسوق",
+    "empty": "سلة التسوق فارغة",
+    "empty_subtitle": "أضف منتجات للبدء",
+    "continue_shopping": "مواصلة التسوق",
+    "order_whatsapp": "اطلب عبر واتساب",
+    "total": "المجموع",
+    "items": "منتجات",
+    "item": "منتج",
+    "remove": "حذف",
+    "subtotal": "المجموع الفرعي"
+  },
+  "favorites": {
+    "title": "المفضلة",
+    "empty": "قائمة المفضلة فارغة",
+    "empty_subtitle": "اضغط على القلب لإضافة منتجات",
+    "order_all_whatsapp": "اطلب الكل عبر واتساب"
+  },
+  "search": {
+    "placeholder": "ابحث عن منتج...",
+    "results_for": "نتائج لـ",
+    "no_results": "لا توجد نتائج",
+    "no_results_subtitle": "جرّب كلمات بحث أخرى",
+    "see_all_results": "عرض جميع النتائج"
+  },
+  "filters": {
+    "title": "التصفية",
+    "sort": "ترتيب حسب",
+    "sort_price_asc": "السعر: من الأقل",
+    "sort_price_desc": "السعر: من الأعلى",
+    "sort_newest": "الأحدث",
+    "sort_popular": "الأكثر شعبية",
+    "sort_az": "أ-ي",
+    "price_range": "نطاق السعر",
+    "brand": "الماركة",
+    "tags": "الوسوم",
+    "in_stock_only": "المتوفر فقط",
+    "clear_all": "مسح التصفية",
+    "apply": "تطبيق",
+    "showing": "عرض",
+    "of": "من",
+    "products": "منتجات"
+  },
+  "footer": {
+    "quick_links": "روابط سريعة",
+    "follow_us": "تابعنا",
+    "contact": "تواصل معنا",
+    "rights": "جميع الحقوق محفوظة",
+    "made_with": "صُنع بشغف في المغرب"
+  },
+  "about": {
+    "title": "من نحن",
+    "subtitle": "شريكك التقني الموثوق",
+    "working_hours": "ساعات العمل",
+    "contact_us": "تواصل معنا",
+    "find_us": "موقعنا",
+    "delivery_zones": "مناطق التوصيل"
+  },
+  "faq": {
+    "title": "الأسئلة الشائعة",
+    "subtitle": "كل ما تحتاج معرفته"
+  },
+  "offers": {
+    "title": "جميع العروض",
+    "subtitle": "استفد من أفضل عروضنا",
+    "ends_in": "ينتهي في",
+    "expired": "منتهي",
+    "active": "نشط"
+  },
+  "why_us": {
+    "delivery_title": "توصيل سريع",
+    "delivery_desc": "التوصيل خلال 24-48 ساعة في جميع أنحاء المغرب",
+    "genuine_title": "منتجات أصلية",
+    "genuine_desc": "100% منتجات مضمونة الأصالة",
+    "support_title": "دعم 7 أيام",
+    "support_desc": "فريقنا متاح لمساعدتك",
+    "prices_title": "أفضل الأسعار",
+    "prices_desc": "أسعار تنافسية وعروض حصرية"
+  },
+  "toast": {
+    "added_to_cart": "تمت الإضافة إلى السلة",
+    "removed_from_cart": "تمت الإزالة من السلة",
+    "added_to_favorites": "تمت الإضافة إلى المفضلة",
+    "removed_from_favorites": "تمت الإزالة من المفضلة",
+    "link_copied": "تم نسخ الرابط!"
+  },
+  "common": {
+    "loading": "جار التحميل...",
+    "error": "حدث خطأ",
+    "retry": "إعادة المحاولة",
+    "back": "رجوع",
+    "back_home": "العودة للرئيسية",
+    "confirm": "تأكيد",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "save": "حفظ",
+    "add": "إضافة",
+    "yes": "نعم",
+    "no": "لا",
+    "dh": "درهم"
+  },
+  "not_found": {
+    "title": "الصفحة غير موجودة",
+    "subtitle": "الصفحة التي تبحث عنها غير موجودة.",
+    "back_home": "العودة للرئيسية"
+  },
+  "language": {
+    "select": "اختر لغتك",
+    "subtitle": "اختر لغتك المفضلة للمتابعة"
+  },
+  "admin": {
+    "login": "تسجيل دخول المشرف",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "login_btn": "تسجيل الدخول",
+    "dashboard": "لوحة التحكم",
+    "products": "المنتجات",
+    "categories": "الفئات",
+    "offers": "العروض",
+    "banners": "البانرات",
+    "testimonials": "الشهادات",
+    "faq": "الأسئلة الشائعة",
+    "announcement": "الإعلان",
+    "activity_log": "سجل النشاط",
+    "logout": "تسجيل الخروج"
+  }
+}

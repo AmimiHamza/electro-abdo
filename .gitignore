@@ -27,6 +27,15 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
+
+# SQLite database (use Vercel Postgres or Turso in production)
+*.sqlite
+*.sqlite-journal
+prisma/prisma/
+
+# uploaded files (use Vercel Blob or Cloudinary in production)
+public/uploads/
 
 # vercel
 .vercel

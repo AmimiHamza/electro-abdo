@@ -1,0 +1,179 @@
+{
+  "nav": {
+    "home": "Home",
+    "categories": "Categories",
+    "offers": "Offers",
+    "search": "Search",
+    "cart": "Cart",
+    "favorites": "Favorites",
+    "about": "About",
+    "faq": "FAQ",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "home": {
+    "hero_cta": "Discover",
+    "categories_title": "Browse Categories",
+    "categories_subtitle": "Find what you need",
+    "offers_title": "Special Offers",
+    "offers_subtitle": "Don't miss these exceptional deals",
+    "new_arrivals_title": "New Arrivals",
+    "new_arrivals_subtitle": "The latest products available",
+    "trending_title": "Trending Now",
+    "trending_subtitle": "Most popular right now",
+    "brands_title": "Our Brands",
+    "why_us_title": "Why Choose Us?",
+    "testimonials_title": "What Our Customers Say",
+    "see_all": "See All",
+    "see_all_offers": "See All Offers"
+  },
+  "product": {
+    "add_to_cart": "Add to Cart",
+    "add_to_favorites": "Add to Favorites",
+    "remove_from_favorites": "Remove from Favorites",
+    "quick_view": "Quick View",
+    "view_details": "View Details",
+    "share": "Share",
+    "share_whatsapp": "Share via WhatsApp",
+    "copy_link": "Copy Link",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "new": "New",
+    "offer": "Deal",
+    "warranty": "Warranty",
+    "description": "Description",
+    "specifications": "Specifications",
+    "delivery": "Delivery",
+    "related_products": "Related Products",
+    "recently_viewed": "Recently Viewed",
+    "starting_from": "Starting from",
+    "quantity": "Quantity"
+  },
+  "cart": {
+    "title": "My Cart",
+    "empty": "Your cart is empty",
+    "empty_subtitle": "Add products to get started",
+    "continue_shopping": "Continue Shopping",
+    "order_whatsapp": "Order via WhatsApp",
+    "total": "Total",
+    "items": "items",
+    "item": "item",
+    "remove": "Remove",
+    "subtotal": "Subtotal"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "empty": "Your favorites list is empty",
+    "empty_subtitle": "Click the heart icon to add products",
+    "order_all_whatsapp": "Order All via WhatsApp"
+  },
+  "search": {
+    "placeholder": "Search for a product...",
+    "results_for": "results for",
+    "no_results": "No results found",
+    "no_results_subtitle": "Try different keywords",
+    "see_all_results": "See all results"
+  },
+  "filters": {
+    "title": "Filters",
+    "sort": "Sort by",
+    "sort_price_asc": "Price: Low to High",
+    "sort_price_desc": "Price: High to Low",
+    "sort_newest": "Newest First",
+    "sort_popular": "Most Popular",
+    "sort_az": "A-Z",
+    "price_range": "Price Range",
+    "brand": "Brand",
+    "tags": "Tags",
+    "in_stock_only": "In Stock Only",
+    "clear_all": "Clear All Filters",
+    "apply": "Apply",
+    "showing": "Showing",
+    "of": "of",
+    "products": "products"
+  },
+  "footer": {
+    "quick_links": "Quick Links",
+    "follow_us": "Follow Us",
+    "contact": "Contact",
+    "rights": "All rights reserved",
+    "made_with": "Made with passion in Morocco"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Your trusted tech partner",
+    "working_hours": "Working Hours",
+    "contact_us": "Contact Us",
+    "find_us": "Find Us",
+    "delivery_zones": "Delivery Zones"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know"
+  },
+  "offers": {
+    "title": "All Offers",
+    "subtitle": "Take advantage of our best promotions",
+    "ends_in": "Ends in",
+    "expired": "Expired",
+    "active": "Active"
+  },
+  "why_us": {
+    "delivery_title": "Fast Delivery",
+    "delivery_desc": "Delivery within 24-48h across Morocco",
+    "genuine_title": "Genuine Products",
+    "genuine_desc": "100% guaranteed authentic products",
+    "support_title": "24/7 Support",
+    "support_desc": "Our team is available to help you",
+    "prices_title": "Best Prices",
+    "prices_desc": "Competitive pricing and exclusive deals"
+  },
+  "toast": {
+    "added_to_cart": "Added to cart",
+    "removed_from_cart": "Removed from cart",
+    "added_to_favorites": "Added to favorites",
+    "removed_from_favorites": "Removed from favorites",
+    "link_copied": "Link copied!"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "back": "Back",
+    "back_home": "Back to Home",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "add": "Add",
+    "yes": "Yes",
+    "no": "No",
+    "dh": "DH"
+  },
+  "not_found": {
+    "title": "Page Not Found",
+    "subtitle": "The page you're looking for doesn't exist.",
+    "back_home": "Back to Home"
+  },
+  "language": {
+    "select": "Choose Your Language",
+    "subtitle": "Select your preferred language to continue"
+  },
+  "admin": {
+    "login": "Admin Login",
+    "username": "Username",
+    "password": "Password",
+    "login_btn": "Sign In",
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "categories": "Categories",
+    "offers": "Offers",
+    "banners": "Hero Banners",
+    "testimonials": "Testimonials",
+    "faq": "FAQ",
+    "announcement": "Announcement",
+    "activity_log": "Activity Log",
+    "logout": "Logout"
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "categories": "Catégories",
+    "offers": "Offres",
+    "search": "Rechercher",
+    "cart": "Panier",
+    "favorites": "Favoris",
+    "about": "À propos",
+    "faq": "FAQ",
+    "menu": "Menu",
+    "close": "Fermer"
+  },
+  "home": {
+    "hero_cta": "Découvrir",
+    "categories_title": "Nos Catégories",
+    "categories_subtitle": "Trouvez ce dont vous avez besoin",
+    "offers_title": "Offres Spéciales",
+    "offers_subtitle": "Ne manquez pas ces deals exceptionnels",
+    "new_arrivals_title": "Nouveautés",
+    "new_arrivals_subtitle": "Les derniers produits disponibles",
+    "trending_title": "Tendances",
+    "trending_subtitle": "Les plus populaires du moment",
+    "brands_title": "Nos Marques",
+    "why_us_title": "Pourquoi nous choisir ?",
+    "testimonials_title": "Ce que disent nos clients",
+    "see_all": "Voir tout",
+    "see_all_offers": "Voir toutes les offres"
+  },
+  "product": {
+    "add_to_cart": "Ajouter au panier",
+    "add_to_favorites": "Ajouter aux favoris",
+    "remove_from_favorites": "Retirer des favoris",
+    "quick_view": "Aperçu rapide",
+    "view_details": "Voir les détails",
+    "share": "Partager",
+    "share_whatsapp": "Partager via WhatsApp",
+    "copy_link": "Copier le lien",
+    "in_stock": "En stock",
+    "out_of_stock": "Rupture de stock",
+    "new": "Nouveau",
+    "offer": "Offre",
+    "warranty": "Garantie",
+    "description": "Description",
+    "specifications": "Spécifications",
+    "delivery": "Livraison",
+    "related_products": "Produits similaires",
+    "recently_viewed": "Récemment consultés",
+    "starting_from": "À partir de",
+    "quantity": "Quantité"
+  },
+  "cart": {
+    "title": "Mon Panier",
+    "empty": "Votre panier est vide",
+    "empty_subtitle": "Ajoutez des produits pour commencer",
+    "continue_shopping": "Continuer les achats",
+    "order_whatsapp": "Commander via WhatsApp",
+    "total": "Total",
+    "items": "articles",
+    "item": "article",
+    "remove": "Supprimer",
+    "subtotal": "Sous-total"
+  },
+  "favorites": {
+    "title": "Mes Favoris",
+    "empty": "Votre liste de favoris est vide",
+    "empty_subtitle": "Cliquez sur le cœur pour ajouter des produits",
+    "order_all_whatsapp": "Commander tous via WhatsApp"
+  },
+  "search": {
+    "placeholder": "Rechercher un produit...",
+    "results_for": "résultats pour",
+    "no_results": "Aucun résultat trouvé",
+    "no_results_subtitle": "Essayez avec d'autres mots-clés",
+    "see_all_results": "Voir tous les résultats"
+  },
+  "filters": {
+    "title": "Filtres",
+    "sort": "Trier par",
+    "sort_price_asc": "Prix croissant",
+    "sort_price_desc": "Prix décroissant",
+    "sort_newest": "Plus récents",
+    "sort_popular": "Plus populaires",
+    "sort_az": "A-Z",
+    "price_range": "Fourchette de prix",
+    "brand": "Marque",
+    "tags": "Tags",
+    "in_stock_only": "En stock seulement",
+    "clear_all": "Effacer les filtres",
+    "apply": "Appliquer",
+    "showing": "Affichage de",
+    "of": "sur",
+    "products": "produits"
+  },
+  "footer": {
+    "quick_links": "Liens rapides",
+    "follow_us": "Suivez-nous",
+    "contact": "Contact",
+    "rights": "Tous droits réservés",
+    "made_with": "Fait avec passion au Maroc"
+  },
+  "about": {
+    "title": "À propos de nous",
+    "subtitle": "Votre partenaire technologique de confiance",
+    "working_hours": "Horaires d'ouverture",
+    "contact_us": "Nous contacter",
+    "find_us": "Nous trouver",
+    "delivery_zones": "Zones de livraison"
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "subtitle": "Tout ce que vous devez savoir"
+  },
+  "offers": {
+    "title": "Toutes nos offres",
+    "subtitle": "Profitez de nos meilleures promotions",
+    "ends_in": "Se termine dans",
+    "expired": "Expirée",
+    "active": "Active"
+  },
+  "why_us": {
+    "delivery_title": "Livraison rapide",
+    "delivery_desc": "Livraison en 24-48h dans tout le Maroc",
+    "genuine_title": "Produits authentiques",
+    "genuine_desc": "100% produits garantis authentiques",
+    "support_title": "Support 7j/7",
+    "support_desc": "Notre équipe est disponible pour vous aider",
+    "prices_title": "Meilleurs prix",
+    "prices_desc": "Prix compétitifs et offres exclusives"
+  },
+  "toast": {
+    "added_to_cart": "Ajouté au panier",
+    "removed_from_cart": "Retiré du panier",
+    "added_to_favorites": "Ajouté aux favoris",
+    "removed_from_favorites": "Retiré des favoris",
+    "link_copied": "Lien copié !"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "retry": "Réessayer",
+    "back": "Retour",
+    "back_home": "Retour à l'accueil",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "save": "Enregistrer",
+    "add": "Ajouter",
+    "yes": "Oui",
+    "no": "Non",
+    "dh": "DH"
+  },
+  "not_found": {
+    "title": "Page non trouvée",
+    "subtitle": "La page que vous cherchez n'existe pas.",
+    "back_home": "Retour à l'accueil"
+  },
+  "language": {
+    "select": "Choisissez votre langue",
+    "subtitle": "Sélectionnez la langue de votre choix pour continuer"
+  },
+  "admin": {
+    "login": "Connexion Admin",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "login_btn": "Se connecter",
+    "dashboard": "Tableau de bord",
+    "products": "Produits",
+    "categories": "Catégories",
+    "offers": "Offres",
+    "banners": "Bannières",
+    "testimonials": "Témoignages",
+    "faq": "FAQ",
+    "announcement": "Annonce",
+    "activity_log": "Journal d'activité",
+    "logout": "Déconnexion"
+  }
+}
