@@ -20,7 +20,7 @@ interface PageProps {
   searchParams: SearchParams;
 }
 
-export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const q = getString(searchParams.q);
   return { title: q ? `"${q}"` : "Recherche" };
 }
