@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { Zap, Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +27,7 @@ export default function AdminLoginPage() {
     if (result?.error) {
       setError("Invalid username or password");
     } else {
-      router.push("/admin/dashboard");
+      window.location.href = "/admin/dashboard";
     }
   };
 
