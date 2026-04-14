@@ -87,9 +87,9 @@ export function Navbar({ locale }: NavbarProps) {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        className={`sticky top-0 z-50 w-full transition-all duration-500 ${
           scrolled
-            ? "bg-[var(--navbar-bg)] backdrop-blur-md shadow-card border-b border-border"
+            ? "bg-[var(--navbar-bg)] backdrop-blur-xl shadow-card border-b border-border/50"
             : "bg-[var(--navbar-bg)] backdrop-blur-sm"
         }`}
       >
@@ -109,7 +109,7 @@ export function Navbar({ locale }: NavbarProps) {
               href={`/${locale}`}
               className="flex items-center gap-2 shrink-0"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-blue-400 flex items-center justify-center shadow-glow">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-blue-400 flex items-center justify-center shadow-glow hover:animate-glow-pulse transition-all">
                 <Zap className="w-4 h-4 text-white" />
               </div>
               <span className="font-heading font-bold text-lg hidden sm:block leading-none">

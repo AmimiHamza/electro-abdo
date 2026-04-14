@@ -25,13 +25,18 @@ export function TrendingNow({ products, locale }: TrendingNowProps) {
   };
 
   return (
-    <section className="py-12 bg-muted/30">
+    <section className="py-14 bg-muted/30">
       <div className="container-shop">
         {/* Section header */}
         <div className="flex items-end justify-between mb-6">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="w-4 h-4 text-accent" />
+              <TrendingUp className="w-4 h-4 text-accent animate-bounce-subtle" />
               <p className="text-accent font-semibold text-sm uppercase tracking-wider">
                 {t("trending_subtitle")}
               </p>
@@ -39,7 +44,8 @@ export function TrendingNow({ products, locale }: TrendingNowProps) {
             <h2 className="font-heading text-2xl md:text-3xl font-bold">
               {t("trending_title")}
             </h2>
-          </div>
+            <div className="section-line mt-2" />
+          </motion.div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex gap-1.5">
               <button
@@ -89,12 +95,12 @@ export function TrendingNow({ products, locale }: TrendingNowProps) {
                 {/* Rank badge for top 3 */}
                 {i < 3 && (
                   <div
-                    className={`absolute -top-2 -start-2 z-10 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-card ${
+                    className={`absolute -top-2 -start-2 z-10 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-lg ring-2 ring-surface ${
                       i === 0
-                        ? "bg-yellow-500"
+                        ? "bg-gradient-to-br from-yellow-400 to-yellow-600"
                         : i === 1
-                        ? "bg-gray-400"
-                        : "bg-amber-600"
+                        ? "bg-gradient-to-br from-gray-300 to-gray-500"
+                        : "bg-gradient-to-br from-amber-500 to-amber-700"
                     }`}
                   >
                     #{i + 1}

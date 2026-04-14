@@ -26,13 +26,18 @@ export function NewArrivals({ products, locale }: NewArrivalsProps) {
   };
 
   return (
-    <section className="py-12">
+    <section className="py-14">
       <div className="container-shop">
         {/* Section header */}
         <div className="flex items-end justify-between mb-6">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="flex items-center gap-2 mb-1">
-              <Sparkles className="w-4 h-4 text-accent" />
+              <Sparkles className="w-4 h-4 text-accent animate-bounce-subtle" />
               <p className="text-accent font-semibold text-sm uppercase tracking-wider">
                 {t("new_arrivals_subtitle")}
               </p>
@@ -40,7 +45,8 @@ export function NewArrivals({ products, locale }: NewArrivalsProps) {
             <h2 className="font-heading text-2xl md:text-3xl font-bold">
               {t("new_arrivals_title")}
             </h2>
-          </div>
+            <div className="section-line mt-2" />
+          </motion.div>
           <div className="flex items-center gap-3">
             {/* Arrow buttons (desktop) */}
             <div className="hidden md:flex gap-1.5">

@@ -26,13 +26,18 @@ interface CategoriesGridProps {
 const containerVariants = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.07 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, damping: 20, stiffness: 200 },
+  },
 };
 
 export function CategoriesGrid({ categories, locale }: CategoriesGridProps) {
@@ -42,10 +47,16 @@ export function CategoriesGrid({ categories, locale }: CategoriesGridProps) {
   if (categories.length === 0) return null;
 
   return (
-    <section className="py-12 bg-muted/30">
+    <section className="py-14 bg-muted/30">
       <div className="container-shop">
         {/* Section header */}
-        <div className="flex items-end justify-between mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex items-end justify-between mb-8"
+        >
           <div>
             <p className="text-accent font-semibold text-sm uppercase tracking-wider mb-1">
               {t("categories_subtitle")}
@@ -53,8 +64,9 @@ export function CategoriesGrid({ categories, locale }: CategoriesGridProps) {
             <h2 className="font-heading text-2xl md:text-3xl font-bold">
               {t("categories_title")}
             </h2>
+            <div className="section-line mt-2" />
           </div>
-        </div>
+        </motion.div>
 
         {/* Grid */}
         <motion.div
@@ -70,10 +82,10 @@ export function CategoriesGrid({ categories, locale }: CategoriesGridProps) {
               <motion.div key={cat.id} variants={itemVariants}>
                 <Link
                   href={`/${locale}/category/${cat.slug}`}
-                  className="group flex flex-col items-center text-center p-4 rounded-2xl bg-surface border border-border hover:border-accent/40 hover:shadow-card-hover transition-all duration-300"
+                  className="group flex flex-col items-center text-center p-4 rounded-2xl bg-surface border border-border hover:border-accent/40 hover-glow transition-all duration-300"
                 >
                   {/* Category image / icon */}
-                  <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-accent/10 to-blue-400/10 mb-3 group-hover:scale-105 transition-transform duration-300">
+                  <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-accent/5 to-blue-400/10 mb-3 group-hover:scale-[1.08] transition-transform duration-500 ease-out">
                     {cat.image ? (
                       <Image
                         src={cat.image}

@@ -86,7 +86,7 @@ export function ProductCard({ product, locale, compact = false }: ProductCardPro
   return (
     <Link
       href={`/${locale}/product/${product.id}`}
-      className={`card group flex flex-col overflow-hidden hover:-translate-y-1 transition-all duration-300 ${
+      className={`card group flex flex-col overflow-hidden hover:-translate-y-1.5 transition-all duration-300 ${
         compact ? "w-48 sm:w-56 flex-shrink-0" : "w-full"
       }`}
     >
@@ -97,7 +97,7 @@ export function ProductCard({ product, locale, compact = false }: ProductCardPro
             src={image}
             alt={name}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
@@ -108,13 +108,16 @@ export function ProductCard({ product, locale, compact = false }: ProductCardPro
           </div>
         )}
 
+        {/* Hover overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
         {/* Badges overlay */}
         <div className="absolute top-2 start-2 flex flex-col gap-1">
           {product.isNewArrival && (
-            <span className="badge badge-new text-[10px]">{t("new")}</span>
+            <span className="badge badge-new text-[10px] animate-badge-pulse">{t("new")}</span>
           )}
           {discount && (
-            <span className="badge badge-offer text-[10px]">-{discount}%</span>
+            <span className="badge badge-offer text-[10px] animate-badge-pulse">-{discount}%</span>
           )}
           {isOutOfStock && (
             <span className="badge badge-out-of-stock text-[10px]">
@@ -132,13 +135,13 @@ export function ProductCard({ product, locale, compact = false }: ProductCardPro
         <button
           onClick={handleToggleFav}
           aria-label={isFav ? t("remove_from_favorites") : t("add_to_favorites")}
-          className={`absolute top-2 end-2 w-8 h-8 flex items-center justify-center rounded-full shadow-card transition-all ${
+          className={`absolute top-2 end-2 w-8 h-8 flex items-center justify-center rounded-full shadow-card transition-all duration-300 ${
             isFav
               ? "bg-red-500 text-white scale-110"
-              : "bg-surface/90 text-muted-foreground hover:text-red-500 hover:bg-surface"
+              : "bg-surface/90 text-muted-foreground hover:text-red-500 hover:bg-surface opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0"
           }`}
         >
-          <Heart className={`w-4 h-4 ${isFav ? "fill-current" : ""}`} />
+          <Heart className={`w-4 h-4 transition-transform duration-200 ${isFav ? "fill-current scale-110" : "group-hover:scale-110"}`} />
         </button>
 
         {/* Quick view button */}
@@ -147,10 +150,10 @@ export function ProductCard({ product, locale, compact = false }: ProductCardPro
             e.preventDefault();
             openQuickView(product.id);
           }}
-          className="absolute inset-x-0 bottom-0 flex items-center justify-center p-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+          className="absolute inset-x-0 bottom-0 flex items-center justify-center p-2.5 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300"
           aria-label={t("quick_view")}
         >
-          <span className="flex items-center gap-1.5 bg-surface/95 backdrop-blur-sm text-foreground text-xs font-semibold px-3 py-1.5 rounded-full shadow-card-hover">
+          <span className="flex items-center gap-1.5 bg-white/90 dark:bg-surface/95 backdrop-blur-md text-foreground text-xs font-semibold px-4 py-2 rounded-full shadow-card-hover border border-white/50 dark:border-white/10">
             <Eye className="w-3.5 h-3.5" />
             {t("quick_view")}
           </span>
@@ -164,7 +167,7 @@ export function ProductCard({ product, locale, compact = false }: ProductCardPro
             {product.brand}
           </p>
         )}
-        <p className="text-sm font-semibold text-foreground line-clamp-2 leading-snug flex-1">
+        <p className="text-sm font-semibold text-foreground line-clamp-2 leading-snug flex-1 group-hover:text-accent transition-colors duration-300">
           {name}
         </p>
 
@@ -184,10 +187,10 @@ export function ProductCard({ product, locale, compact = false }: ProductCardPro
         <button
           onClick={handleAddToCart}
           disabled={isOutOfStock}
-          className={`btn text-xs py-2 w-full mt-auto ${
+          className={`btn text-xs py-2 w-full mt-auto transition-all duration-300 ${
             isOutOfStock
               ? "bg-muted text-muted-foreground cursor-not-allowed"
-              : "btn-primary"
+              : "btn-primary hover:shadow-glow"
           }`}
         >
           <ShoppingCart className="w-3.5 h-3.5" />

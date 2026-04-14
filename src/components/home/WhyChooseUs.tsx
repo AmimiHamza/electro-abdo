@@ -25,14 +25,20 @@ export async function WhyChooseUs({ locale }: WhyChooseUsProps) {
   ];
 
   return (
-    <section className="py-14 bg-gray-100 dark:bg-gradient-to-br dark:from-[#1a1a2e] dark:to-[#16213e]">
-      <div className="container-shop">
+    <section className="py-16 bg-gray-100 dark:bg-gradient-to-br dark:from-[#1a1a2e] dark:to-[#16213e] relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-10 start-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-10 end-10 w-64 h-64 bg-blue-400/5 rounded-full blur-3xl animate-float-delayed" />
+      </div>
+
+      <div className="container-shop relative z-10">
         {/* Section header */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-12">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
             {tHome("why_us_title")}
           </h2>
-          <div className="gradient-strip w-24 mx-auto mt-3" />
+          <div className="section-line mx-auto mt-3" />
         </div>
 
         {/* Cards */}
@@ -42,12 +48,13 @@ export async function WhyChooseUs({ locale }: WhyChooseUsProps) {
             return (
               <div
                 key={i}
-                className="flex flex-col items-center text-center p-6 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-accent/40 dark:hover:border-accent/30 shadow-sm hover:shadow-md dark:hover:bg-white/10 transition-all group"
+                className="flex flex-col items-center text-center p-7 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-accent/40 dark:hover:border-accent/30 shadow-sm hover:shadow-lg dark:hover:bg-white/10 transition-all duration-300 group hover:-translate-y-1"
+                style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <div
-                  className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${iconColors[i]} group-hover:scale-110 transition-transform`}
+                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-5 ${iconColors[i]} group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm`}
                 >
-                  <Icon className="w-7 h-7" />
+                  <Icon className="w-8 h-8" />
                 </div>
                 <h3 className="font-heading font-bold text-gray-900 dark:text-white text-base mb-2">
                   {card.title}

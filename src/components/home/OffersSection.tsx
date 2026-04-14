@@ -43,10 +43,16 @@ export function OffersSection({ offers, locale }: OffersSectionProps) {
   if (offers.length === 0) return null;
 
   return (
-    <section className="py-12">
+    <section className="py-14">
       <div className="container-shop">
         {/* Section header */}
-        <div className="flex items-end justify-between mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex items-end justify-between mb-8"
+        >
           <div>
             <p className="text-accent font-semibold text-sm uppercase tracking-wider mb-1">
               {t("offers_subtitle")}
@@ -54,15 +60,16 @@ export function OffersSection({ offers, locale }: OffersSectionProps) {
             <h2 className="font-heading text-2xl md:text-3xl font-bold">
               {t("offers_title")}
             </h2>
+            <div className="section-line mt-2" />
           </div>
           <Link
             href={`/${locale}/offers`}
-            className="flex items-center gap-1.5 text-accent text-sm font-semibold hover:gap-2.5 transition-all"
+            className="group flex items-center gap-1.5 text-accent text-sm font-semibold hover:gap-2.5 transition-all"
           >
             {t("see_all_offers")}
-            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            <ArrowRight className="w-4 h-4 rtl:rotate-180 group-hover:translate-x-1 transition-transform" />
           </Link>
-        </div>
+        </motion.div>
 
         {/* Offers */}
         <div className="space-y-6">
@@ -73,10 +80,10 @@ export function OffersSection({ offers, locale }: OffersSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: offerIdx * 0.1 }}
-              className="relative overflow-hidden rounded-2xl border border-border bg-surface"
+              className="relative overflow-hidden rounded-2xl bg-surface gradient-border"
             >
-              {/* Gradient accent strip top */}
-              <div className="gradient-strip" />
+              {/* Animated gradient accent strip top */}
+              <div className="h-1 bg-gradient-to-r from-accent via-blue-400 to-accent bg-[length:200%_100%] animate-gradient-shift" />
 
               <div className="p-5 md:p-6">
                 {/* Offer header */}
