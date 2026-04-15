@@ -4,8 +4,22 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const search = request.nextUrl.searchParams.get("search") || "";
+    const ids = request.nextUrl.searchParams.get("ids") || "";
     const page = parseInt(request.nextUrl.searchParams.get("page") || "1");
     const limit = parseInt(request.nextUrl.searchParams.get("limit") || "20");
+
+    // Fetch by specific IDs (used by offer product picker)
+    if (ids) {
+      const idList = ids.split(",").map((id) => id.trim()).filter(Boolean);
+      const products = await prisma.product.findMany({
+        where: { id: { in: idList } },
+        include: {
+          images: { take: 1, orderBy: { order: "asc" } },
+          category: { select: { name_fr: true } },
+        },
+      });
+      return NextResponse.json({ products, total: products.length, page: 1, limit: products.length });
+    }
 
     const where = search
       ? {
