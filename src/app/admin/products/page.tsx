@@ -9,8 +9,8 @@ async function getProducts(search: string, page: number) {
   const where = search
     ? {
         OR: [
-          { name_fr: { contains: search, mode: "insensitive" } },
-          { brand: { contains: search, mode: "insensitive" } },
+          { name_fr: { contains: search, mode: "insensitive" as const } },
+          { brand: { contains: search, mode: "insensitive" as const } },
         ],
       }
     : {};
