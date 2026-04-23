@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { Plus, Pencil, Trash2, Loader2, X, Check } from "lucide-react";
 import { slugify } from "@/lib/utils";
+import { useAdminT } from "@/hooks/useAdminT";
+import type { AdminTranslationKey } from "@/i18n/admin";
 
 interface Category {
   id: string;
@@ -22,6 +24,7 @@ function CategoryModal({
   onSave: () => void;
   onClose: () => void;
 }) {
+  const { t } = useAdminT();
   const [name_fr, setNameFr] = useState(initial?.name_fr ?? "");
   const [name_ar, setNameAr] = useState(initial?.name_ar ?? "");
   const [name_en, setNameEn] = useState(initial?.name_en ?? "");
@@ -31,7 +34,7 @@ function CategoryModal({
 
   const handleSave = async () => {
     if (!name_fr || !name_ar || !name_en || !slug) {
-      setError("All fields are required");
+      setError(t("all_fields_required"));
       return;
     }
     setSaving(true);
@@ -42,19 +45,25 @@ function CategoryModal({
     setSaving(false);
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      setError(err.error || "Failed to save");
+      setError(err.error || t("failed_to_save"));
       return;
     }
     onSave();
     onClose();
   };
 
+  const labelKeys: { key: AdminTranslationKey; value: string; set: (v: string) => void; dir: "ltr" | "rtl"; fr?: boolean }[] = [
+    { key: "name_fr", value: name_fr, set: setNameFr, dir: "ltr", fr: true },
+    { key: "name_ar", value: name_ar, set: setNameAr, dir: "rtl" },
+    { key: "name_en", value: name_en, set: setNameEn, dir: "ltr" },
+  ];
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-md">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg text-gray-900 dark:text-white">
-            {initial ? "Edit Category" : "New Category"}
+            {initial ? t("edit_category") : t("new_category")}
           </h2>
           <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
             <X className="w-4 h-4" />
@@ -62,35 +71,31 @@ function CategoryModal({
         </div>
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
         <div className="space-y-3">
-          {[
-            { label: "Name (FR)", value: name_fr, set: setNameFr, dir: "ltr" },
-            { label: "Name (AR)", value: name_ar, set: setNameAr, dir: "rtl" },
-            { label: "Name (EN)", value: name_en, set: setNameEn, dir: "ltr" },
-          ].map(({ label, value, set, dir }) => (
-            <div key={label}>
-              <label className="admin-label">{label} *</label>
+          {labelKeys.map((item) => (
+            <div key={item.key}>
+              <label className="admin-label">{t(item.key)} *</label>
               <input
-                value={value}
+                value={item.value}
                 onChange={(e) => {
-                  set(e.target.value);
-                  if (label === "Name (FR)") setSlug(slugify(e.target.value));
+                  item.set(e.target.value);
+                  if (item.fr) setSlug(slugify(e.target.value));
                 }}
                 className="admin-input"
-                dir={dir}
+                dir={item.dir}
               />
             </div>
           ))}
           <div>
-            <label className="admin-label">Slug *</label>
+            <label className="admin-label">{t("slug")} *</label>
             <input value={slug} onChange={(e) => setSlug(e.target.value)} className="admin-input font-mono text-xs" />
           </div>
         </div>
         <div className="flex gap-2 mt-5">
           <button onClick={handleSave} disabled={saving} className="admin-btn-primary flex items-center gap-2">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-            {saving ? "Saving..." : "Save"}
+            {saving ? t("saving") : t("save")}
           </button>
-          <button onClick={onClose} className="admin-btn-outline">Cancel</button>
+          <button onClick={onClose} className="admin-btn-outline">{t("cancel")}</button>
         </div>
       </div>
     </div>
@@ -98,6 +103,7 @@ function CategoryModal({
 }
 
 export default function CategoriesPage() {
+  const { t } = useAdminT();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; category?: Category }>({ open: false });
@@ -112,19 +118,19 @@ export default function CategoriesPage() {
   useEffect(() => { load(); }, [load]);
 
   const handleDelete = async (cat: Category) => {
-    if (!confirm(`Delete "${cat.name_fr}"?`)) return;
+    if (!confirm(`${t("delete")} "${cat.name_fr}"?`)) return;
     const res = await fetch(`/api/admin/categories/${cat.id}`, { method: "DELETE" });
     const data = await res.json();
-    if (!res.ok) { alert(data.error || "Failed to delete"); return; }
+    if (!res.ok) { alert(data.error || t("failed_to_delete")); return; }
     load();
   };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Categories</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("categories_title")}</h1>
         <button onClick={() => setModal({ open: true })} className="admin-btn-primary flex items-center gap-1.5">
-          <Plus className="w-4 h-4" /> Add Category
+          <Plus className="w-4 h-4" /> {t("add_category")}
         </button>
       </div>
 
@@ -137,10 +143,10 @@ export default function CategoriesPage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
               <tr>
-                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Name (FR)</th>
-                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Slug</th>
-                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Products</th>
-                <th className="text-end px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Actions</th>
+                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">{t("name_fr")}</th>
+                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">{t("slug")}</th>
+                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">{t("products_count")}</th>
+                <th className="text-end px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">{t("actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -168,7 +174,7 @@ export default function CategoriesPage() {
                 </tr>
               ))}
               {categories.length === 0 && (
-                <tr><td colSpan={4} className="text-center py-12 text-gray-400">No categories yet</td></tr>
+                <tr><td colSpan={4} className="text-center py-12 text-gray-400">{t("no_categories")}</td></tr>
               )}
             </tbody>
           </table>

@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
+import { useAdminT } from "@/hooks/useAdminT";
 
 interface ImageUploaderProps {
   images: string[];
@@ -10,6 +11,7 @@ interface ImageUploaderProps {
 }
 
 export function ImageUploader({ images, onChange }: ImageUploaderProps) {
+  const { t } = useAdminT();
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -28,7 +30,7 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
         const { url } = await res.json();
         newUrls.push(url);
       } else {
-        setError("Some files failed to upload");
+        setError(t("upload_failed"));
       }
     }
 
@@ -63,15 +65,15 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
         {uploading ? (
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-            <p className="text-sm text-gray-500">Uploading...</p>
+            <p className="text-sm text-gray-500">{t("uploading")}</p>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2">
             <Upload className="w-8 h-8 text-gray-400" />
             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              Drop images or click to upload
+              {t("drop_images")}
             </p>
-            <p className="text-xs text-gray-400">PNG, JPG, WebP — max 5MB each</p>
+            <p className="text-xs text-gray-400">{t("image_formats")}</p>
           </div>
         )}
       </div>
@@ -93,7 +95,7 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
               </button>
               {i === 0 && (
                 <span className="absolute bottom-1 start-1 text-[9px] bg-blue-600 text-white px-1 py-0.5 rounded">
-                  Main
+                  {t("main_image")}
                 </span>
               )}
             </div>

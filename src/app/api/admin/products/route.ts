@@ -24,9 +24,9 @@ export async function GET(request: NextRequest) {
     const where = search
       ? {
           OR: [
-            { name_fr: { contains: search, mode: "insensitive" } },
-            { name_en: { contains: search, mode: "insensitive" } },
-            { brand: { contains: search, mode: "insensitive" } },
+            { name_fr: { contains: search, mode: "insensitive" as const } },
+            { name_en: { contains: search, mode: "insensitive" as const } },
+            { brand: { contains: search, mode: "insensitive" as const } },
           ],
         }
       : {};

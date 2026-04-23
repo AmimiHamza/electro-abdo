@@ -14,11 +14,11 @@ export async function GET(request: NextRequest) {
       ...(search
         ? {
             OR: [
-              { name_fr: { contains: search, mode: "insensitive" } },
-              { name_ar: { contains: search, mode: "insensitive" } },
-              { name_en: { contains: search, mode: "insensitive" } },
-              { brand: { contains: search, mode: "insensitive" } },
-              { tags: { contains: search, mode: "insensitive" } },
+              { name_fr: { contains: search, mode: "insensitive" as const } },
+              { name_ar: { contains: search, mode: "insensitive" as const } },
+              { name_en: { contains: search, mode: "insensitive" as const } },
+              { brand: { contains: search, mode: "insensitive" as const } },
+              { tags: { contains: search, mode: "insensitive" as const } },
             ],
           }
         : {}),

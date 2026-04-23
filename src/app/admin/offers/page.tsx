@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Plus, Pencil, Trash2, Loader2, X, Check, Search } from "lucide-react";
+import { useAdminT } from "@/hooks/useAdminT";
+import type { AdminTranslationKey } from "@/i18n/admin";
 
 interface Offer {
   id: string;
@@ -32,6 +34,7 @@ function ProductPicker({
   selectedIds: string[];
   onChange: (ids: string[]) => void;
 }) {
+  const { t } = useAdminT();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ProductOption[]>([]);
   const [selected, setSelected] = useState<ProductOption[]>([]);
@@ -107,7 +110,7 @@ function ProductPicker({
 
   return (
     <div>
-      <label className="admin-label">Products in Offer</label>
+      <label className="admin-label">{t("products_in_offer")}</label>
 
       {/* Selected products */}
       {selected.length > 0 && (
@@ -151,7 +154,7 @@ function ProductPicker({
               setOpen(true);
             }}
             onFocus={() => query.trim() && setOpen(true)}
-            placeholder="Search products to add..."
+            placeholder={t("search_products_to_add")}
             className="admin-input ps-9"
           />
           {searching && (
@@ -185,7 +188,7 @@ function ProductPicker({
                     </p>
                   </div>
                   {isAlready ? (
-                    <span className="text-[10px] text-gray-400 font-medium shrink-0 ms-2">Added</span>
+                    <span className="text-[10px] text-gray-400 font-medium shrink-0 ms-2">{t("added")}</span>
                   ) : (
                     <Plus className="w-4 h-4 text-blue-500 shrink-0 ms-2" />
                   )}
@@ -197,7 +200,7 @@ function ProductPicker({
 
         {open && query.trim() && !searching && results.length === 0 && (
           <div className="absolute z-20 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-4 text-center text-sm text-gray-400">
-            No products found
+            {t("no_products_found_short")}
           </div>
         )}
       </div>
@@ -215,6 +218,7 @@ function OfferModal({
   onSave: () => void;
   onClose: () => void;
 }) {
+  const { t } = useAdminT();
   const initialIds = initial?.productIds
     ? initial.productIds.split(",").map((id) => id.trim()).filter(Boolean)
     : [];
@@ -236,7 +240,7 @@ function OfferModal({
 
   const handleSave = async () => {
     if (!form.title_fr || !form.endDate) {
-      setError("Title FR and End Date are required");
+      setError(t("title_end_required"));
       return;
     }
     setSaving(true);
@@ -261,7 +265,7 @@ function OfferModal({
     });
     setSaving(false);
     if (!res.ok) {
-      setError("Failed to save");
+      setError(t("failed_to_save"));
       return;
     }
     onSave();
@@ -273,7 +277,7 @@ function OfferModal({
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-lg overflow-y-auto max-h-[90vh]">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg text-gray-900 dark:text-white">
-            {initial ? "Edit Offer" : "New Offer"}
+            {initial ? t("edit_offer") : t("new_offer")}
           </h2>
           <button
             onClick={onClose}
@@ -284,13 +288,13 @@ function OfferModal({
         </div>
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
         <div className="space-y-3">
-          {[
-            { label: "Title (FR) *", key: "title_fr", dir: "ltr" },
-            { label: "Title (AR) *", key: "title_ar", dir: "rtl" },
-            { label: "Title (EN)", key: "title_en", dir: "ltr" },
-          ].map(({ label, key, dir }) => (
+          {([
+            { labelKey: "title_fr" as AdminTranslationKey, key: "title_fr", dir: "ltr", required: true },
+            { labelKey: "title_ar" as AdminTranslationKey, key: "title_ar", dir: "rtl", required: true },
+            { labelKey: "title_en" as AdminTranslationKey, key: "title_en", dir: "ltr", required: false },
+          ] as const).map(({ labelKey, key, dir, required }) => (
             <div key={key}>
-              <label className="admin-label">{label}</label>
+              <label className="admin-label">{t(labelKey)}{required ? " *" : ""}</label>
               <input
                 value={
                   key === "title_fr"
@@ -314,7 +318,7 @@ function OfferModal({
 
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="admin-label">Discount %</label>
+              <label className="admin-label">{t("discount_percent")}</label>
               <input
                 type="number"
                 value={form.discount}
@@ -325,7 +329,7 @@ function OfferModal({
               />
             </div>
             <div>
-              <label className="admin-label">Start Date *</label>
+              <label className="admin-label">{t("start_date")} *</label>
               <input
                 type="date"
                 value={form.startDate}
@@ -336,7 +340,7 @@ function OfferModal({
               />
             </div>
             <div>
-              <label className="admin-label">End Date *</label>
+              <label className="admin-label">{t("end_date")} *</label>
               <input
                 type="date"
                 value={form.endDate}
@@ -356,7 +360,7 @@ function OfferModal({
               }
               className="w-4 h-4 accent-blue-600"
             />
-            Active
+            {t("active")}
           </label>
         </div>
         <div className="flex gap-2 mt-5">
@@ -370,10 +374,10 @@ function OfferModal({
             ) : (
               <Check className="w-4 h-4" />
             )}
-            {saving ? "Saving..." : "Save"}
+            {saving ? t("saving") : t("save")}
           </button>
           <button onClick={onClose} className="admin-btn-outline">
-            Cancel
+            {t("cancel")}
           </button>
         </div>
       </div>
@@ -383,6 +387,7 @@ function OfferModal({
 
 /* ── Offers Page ── */
 export default function OffersPage() {
+  const { t } = useAdminT();
   const [offers, setOffers] = useState<Offer[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; offer?: Offer }>({
@@ -401,7 +406,7 @@ export default function OffersPage() {
   }, [load]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this offer?")) return;
+    if (!confirm(t("delete_offer_confirm"))) return;
     await fetch(`/api/admin/offers/${id}`, { method: "DELETE" });
     load();
   };
@@ -410,13 +415,13 @@ export default function OffersPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Offers
+          {t("offers_title")}
         </h1>
         <button
           onClick={() => setModal({ open: true })}
           className="admin-btn-primary flex items-center gap-1.5"
         >
-          <Plus className="w-4 h-4" /> Add Offer
+          <Plus className="w-4 h-4" /> {t("add_offer")}
         </button>
       </div>
 
@@ -430,19 +435,19 @@ export default function OffersPage() {
             <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
               <tr>
                 <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">
-                  Title
+                  {t("title_fr")}
                 </th>
                 <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">
-                  Discount
+                  {t("discount")}
                 </th>
                 <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">
-                  End Date
+                  {t("end_date")}
                 </th>
                 <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">
-                  Status
+                  {t("status")}
                 </th>
                 <th className="text-end px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">
-                  Actions
+                  {t("actions")}
                 </th>
               </tr>
             </thead>
@@ -474,10 +479,10 @@ export default function OffersPage() {
                         }`}
                       >
                         {isExpired
-                          ? "Expired"
+                          ? t("expired")
                           : offer.isActive
-                          ? "Active"
-                          : "Inactive"}
+                          ? t("active")
+                          : t("inactive")}
                       </span>
                     </td>
                     <td className="px-4 py-3">
@@ -507,7 +512,7 @@ export default function OffersPage() {
                     colSpan={5}
                     className="text-center py-12 text-gray-400"
                   >
-                    No offers yet
+                    {t("no_offers")}
                   </td>
                 </tr>
               )}

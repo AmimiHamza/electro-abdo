@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Plus, Pencil, Trash2, Loader2, X, Check } from "lucide-react";
+import { useAdminT } from "@/hooks/useAdminT";
 
 interface FAQ {
   id: string;
@@ -15,6 +16,7 @@ interface FAQ {
 }
 
 function FAQModal({ initial, onSave, onClose }: { initial?: FAQ; onSave: () => void; onClose: () => void }) {
+  const { t } = useAdminT();
   const [form, setForm] = useState({
     question_fr: initial?.question_fr ?? "",
     question_ar: initial?.question_ar ?? "",
@@ -28,13 +30,13 @@ function FAQModal({ initial, onSave, onClose }: { initial?: FAQ; onSave: () => v
   const [error, setError] = useState("");
 
   const handleSave = async () => {
-    if (!form.question_fr || !form.answer_fr) { setError("Question and Answer FR required"); return; }
+    if (!form.question_fr || !form.answer_fr) { setError(t("question_answer_required")); return; }
     setSaving(true);
     const url = initial ? `/api/admin/faq/${initial.id}` : "/api/admin/faq";
     const method = initial ? "PUT" : "POST";
     const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
     setSaving(false);
-    if (!res.ok) { setError("Failed to save"); return; }
+    if (!res.ok) { setError(t("failed_to_save")); return; }
     onSave();
     onClose();
   };
@@ -43,7 +45,7 @@ function FAQModal({ initial, onSave, onClose }: { initial?: FAQ; onSave: () => v
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh]">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-bold text-lg text-gray-900 dark:text-white">{initial ? "Edit FAQ" : "New FAQ"}</h2>
+          <h2 className="font-bold text-lg text-gray-900 dark:text-white">{initial ? t("edit_faq") : t("new_faq")}</h2>
           <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"><X className="w-4 h-4" /></button>
         </div>
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
@@ -51,26 +53,26 @@ function FAQModal({ initial, onSave, onClose }: { initial?: FAQ; onSave: () => v
           {(["fr", "ar", "en"] as const).map((lang) => (
             <div key={lang} className="space-y-2">
               <div>
-                <label className="admin-label">Question ({lang.toUpperCase()}) {lang === "fr" ? "*" : ""}</label>
+                <label className="admin-label">{t("question")} ({lang.toUpperCase()}) {lang === "fr" ? "*" : ""}</label>
                 <textarea value={(form as Record<string, string | number>)[`question_${lang}`] as string} onChange={(e) => setForm({ ...form, [`question_${lang}`]: e.target.value })} rows={2} className="admin-input resize-none" dir={lang === "ar" ? "rtl" : "ltr"} />
               </div>
               <div>
-                <label className="admin-label">Answer ({lang.toUpperCase()}) {lang === "fr" ? "*" : ""}</label>
+                <label className="admin-label">{t("answer")} ({lang.toUpperCase()}) {lang === "fr" ? "*" : ""}</label>
                 <textarea value={(form as Record<string, string | number>)[`answer_${lang}`] as string} onChange={(e) => setForm({ ...form, [`answer_${lang}`]: e.target.value })} rows={4} className="admin-input resize-none" dir={lang === "ar" ? "rtl" : "ltr"} />
               </div>
             </div>
           ))}
         </div>
         <div className="mt-3 w-24">
-          <label className="admin-label">Order</label>
+          <label className="admin-label">{t("order")}</label>
           <input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: parseInt(e.target.value) || 0 })} className="admin-input" />
         </div>
         <div className="flex gap-2 mt-5">
           <button onClick={handleSave} disabled={saving} className="admin-btn-primary flex items-center gap-2">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-            {saving ? "Saving..." : "Save"}
+            {saving ? t("saving") : t("save")}
           </button>
-          <button onClick={onClose} className="admin-btn-outline">Cancel</button>
+          <button onClick={onClose} className="admin-btn-outline">{t("cancel")}</button>
         </div>
       </div>
     </div>
@@ -78,6 +80,7 @@ function FAQModal({ initial, onSave, onClose }: { initial?: FAQ; onSave: () => v
 }
 
 export default function FAQPage() {
+  const { t } = useAdminT();
   const [items, setItems] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; item?: FAQ }>({ open: false });
@@ -92,7 +95,7 @@ export default function FAQPage() {
   useEffect(() => { load(); }, [load]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this FAQ?")) return;
+    if (!confirm(t("delete_faq_confirm"))) return;
     await fetch(`/api/admin/faq/${id}`, { method: "DELETE" });
     load();
   };
@@ -100,9 +103,9 @@ export default function FAQPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">FAQ</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("faq_title")}</h1>
         <button onClick={() => setModal({ open: true })} className="admin-btn-primary flex items-center gap-1.5">
-          <Plus className="w-4 h-4" /> Add FAQ
+          <Plus className="w-4 h-4" /> {t("add_faq")}
         </button>
       </div>
 
@@ -114,8 +117,8 @@ export default function FAQPage() {
             <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
               <tr>
                 <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300 w-8">#</th>
-                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Question (FR)</th>
-                <th className="text-end px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Actions</th>
+                <th className="text-start px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">{t("question")} (FR)</th>
+                <th className="text-end px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">{t("actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -134,7 +137,7 @@ export default function FAQPage() {
                   </td>
                 </tr>
               ))}
-              {items.length === 0 && <tr><td colSpan={3} className="text-center py-12 text-gray-400">No FAQs yet</td></tr>}
+              {items.length === 0 && <tr><td colSpan={3} className="text-center py-12 text-gray-400">{t("no_faqs")}</td></tr>}
             </tbody>
           </table>
         </div>

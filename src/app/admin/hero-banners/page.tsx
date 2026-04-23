@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Plus, Trash2, Loader2, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { useAdminT } from "@/hooks/useAdminT";
 
 interface Banner {
   id: string;
@@ -17,6 +18,7 @@ interface Banner {
 }
 
 export default function HeroBannersPage() {
+  const { t } = useAdminT();
   const [banners, setBanners] = useState<Banner[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -34,7 +36,7 @@ export default function HeroBannersPage() {
   useEffect(() => { load(); }, [load]);
 
   const handleCreate = async () => {
-    if (newImages.length === 0) { alert("Please upload at least one image"); return; }
+    if (newImages.length === 0) { alert(t("upload_image_required")); return; }
     setSaving(true);
     for (const image of newImages) {
       await fetch("/api/admin/hero-banners", {
@@ -60,7 +62,7 @@ export default function HeroBannersPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this banner?")) return;
+    if (!confirm(t("delete_banner_confirm"))) return;
     await fetch(`/api/admin/hero-banners/${id}`, { method: "DELETE" });
     load();
   };
@@ -68,28 +70,28 @@ export default function HeroBannersPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Hero Banners</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("hero_banners_title")}</h1>
         <button onClick={() => setShowForm(!showForm)} className="admin-btn-primary flex items-center gap-1.5">
-          <Plus className="w-4 h-4" /> Add Banner
+          <Plus className="w-4 h-4" /> {t("add_banner")}
         </button>
       </div>
 
       {showForm && (
         <div className="admin-card mb-6 space-y-4">
-          <h2 className="font-semibold text-gray-900 dark:text-white">New Banner</h2>
+          <h2 className="font-semibold text-gray-900 dark:text-white">{t("new_banner")}</h2>
           <ImageUploader images={newImages} onChange={setNewImages} />
           <div className="grid grid-cols-2 gap-3">
-            <div><label className="admin-label">Title FR</label><input value={form.title_fr} onChange={(e) => setForm({ ...form, title_fr: e.target.value })} className="admin-input" /></div>
-            <div><label className="admin-label">Title AR</label><input value={form.title_ar} onChange={(e) => setForm({ ...form, title_ar: e.target.value })} className="admin-input" dir="rtl" /></div>
-            <div><label className="admin-label">Link URL</label><input value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} className="admin-input" placeholder="/fr/category/smartphones" /></div>
-            <div><label className="admin-label">Order</label><input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: parseInt(e.target.value) })} className="admin-input" /></div>
+            <div><label className="admin-label">{t("title_fr")}</label><input value={form.title_fr} onChange={(e) => setForm({ ...form, title_fr: e.target.value })} className="admin-input" /></div>
+            <div><label className="admin-label">{t("title_ar")}</label><input value={form.title_ar} onChange={(e) => setForm({ ...form, title_ar: e.target.value })} className="admin-input" dir="rtl" /></div>
+            <div><label className="admin-label">{t("link_url")}</label><input value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} className="admin-input" placeholder="/fr/category/smartphones" /></div>
+            <div><label className="admin-label">{t("order")}</label><input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: parseInt(e.target.value) })} className="admin-input" /></div>
           </div>
           <div className="flex gap-2">
             <button onClick={handleCreate} disabled={saving} className="admin-btn-primary flex items-center gap-2">
               {saving && <Loader2 className="w-4 h-4 animate-spin" />}
-              {saving ? "Saving..." : "Create"}
+              {saving ? t("saving") : t("create")}
             </button>
-            <button onClick={() => setShowForm(false)} className="admin-btn-outline">Cancel</button>
+            <button onClick={() => setShowForm(false)} className="admin-btn-outline">{t("cancel")}</button>
           </div>
         </div>
       )}
@@ -104,16 +106,16 @@ export default function HeroBannersPage() {
                 <Image src={banner.image} alt={banner.title_fr ?? "Banner"} fill className="object-cover" sizes="400px" />
                 {!banner.isActive && (
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <span className="text-white text-xs font-bold bg-black/60 px-2 py-1 rounded">HIDDEN</span>
+                    <span className="text-white text-xs font-bold bg-black/60 px-2 py-1 rounded uppercase">{t("hidden")}</span>
                   </div>
                 )}
               </div>
               <div className="p-3">
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{banner.title_fr || "(no title)"}</p>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{banner.title_fr || t("no_title")}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <button onClick={() => toggleActive(banner)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-colors ${banner.isActive ? "bg-green-50 text-green-700 hover:bg-green-100" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
                     {banner.isActive ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-                    {banner.isActive ? "Active" : "Hidden"}
+                    {banner.isActive ? t("active") : t("hidden")}
                   </button>
                   <button onClick={() => handleDelete(banner.id)} className="w-7 h-7 flex items-center justify-center rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 ms-auto">
                     <Trash2 className="w-3.5 h-3.5" />
@@ -122,7 +124,7 @@ export default function HeroBannersPage() {
               </div>
             </div>
           ))}
-          {banners.length === 0 && <p className="text-gray-400 col-span-3 text-center py-12">No banners yet.</p>}
+          {banners.length === 0 && <p className="text-gray-400 col-span-3 text-center py-12">{t("no_banners")}</p>}
         </div>
       )}
     </div>

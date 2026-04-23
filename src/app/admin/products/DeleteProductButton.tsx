@@ -3,13 +3,15 @@
 import { useState } from "react";
 import { Trash2, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useAdminT } from "@/hooks/useAdminT";
 
 export function DeleteProductButton({ id, name }: { id: string; name: string }) {
   const router = useRouter();
+  const { t } = useAdminT();
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
-    if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+    if (!confirm(`${t("delete_product_confirm")}\n\n${name}`)) return;
     setLoading(true);
     await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
     setLoading(false);

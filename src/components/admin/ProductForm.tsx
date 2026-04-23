@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loader2, Plus, Trash2, GripVertical } from "lucide-react";
 import { ImageUploader } from "./ImageUploader";
+import { useAdminT } from "@/hooks/useAdminT";
+import type { AdminTranslationKey } from "@/i18n/admin";
 
 const schema = z.object({
   name_fr: z.string().min(1, "Required"),
@@ -49,12 +51,13 @@ function FieldError({ message }: { message?: string }) {
   return <p className="text-red-500 text-xs mt-1">{message}</p>;
 }
 
-const TABS = ["Basic Info", "Media", "Specs", "Settings"] as const;
-type Tab = (typeof TABS)[number];
+type TabKey = "tab_basic" | "tab_media" | "tab_specs" | "tab_settings";
+const TAB_KEYS: TabKey[] = ["tab_basic", "tab_media", "tab_specs", "tab_settings"];
 
 export function ProductForm({ categories, defaultValues, mode }: ProductFormProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<Tab>("Basic Info");
+  const { t } = useAdminT();
+  const [activeTab, setActiveTab] = useState<TabKey>("tab_basic");
   const [images, setImages] = useState<string[]>(defaultValues?.images ?? []);
   const [specs, setSpecs] = useState<SpecRow[]>(
     defaultValues?.specs
@@ -127,12 +130,23 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      setError(err.error || "Failed to save product");
+      setError(err.error || t("failed_to_save"));
       return;
     }
 
     router.push("/admin/products");
     router.refresh();
+  };
+
+  const nameKeys: Record<"fr" | "ar" | "en", AdminTranslationKey> = {
+    fr: "name_fr",
+    ar: "name_ar",
+    en: "name_en",
+  };
+  const descKeys: Record<"fr" | "ar" | "en", AdminTranslationKey> = {
+    fr: "description_fr",
+    ar: "description_ar",
+    en: "description_en",
   };
 
   return (
@@ -144,30 +158,30 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-gray-200 dark:border-gray-700">
-        {TABS.map((tab) => (
+      <div className="flex gap-1 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+        {TAB_KEYS.map((key) => (
           <button
-            key={tab}
+            key={key}
             type="button"
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
-              activeTab === tab
+            onClick={() => setActiveTab(key)}
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${
+              activeTab === key
                 ? "border-blue-600 text-blue-600"
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
             }`}
           >
-            {tab}
+            {t(key)}
           </button>
         ))}
       </div>
 
       {/* ── Basic Info ── */}
-      {activeTab === "Basic Info" && (
+      {activeTab === "tab_basic" && (
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {(["fr", "ar", "en"] as const).map((lang) => (
               <div key={lang}>
-                <label className="admin-label">Name ({lang.toUpperCase()}) *</label>
+                <label className="admin-label">{t(nameKeys[lang])} *</label>
                 <input
                   {...register(`name_${lang}`)}
                   className="admin-input"
@@ -181,7 +195,7 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {(["fr", "ar", "en"] as const).map((lang) => (
               <div key={lang}>
-                <label className="admin-label">Description ({lang.toUpperCase()}) *</label>
+                <label className="admin-label">{t(descKeys[lang])} *</label>
                 <textarea
                   {...register(`description_${lang}`)}
                   rows={4}
@@ -195,9 +209,9 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <label className="admin-label">Category *</label>
+              <label className="admin-label">{t("category")} *</label>
               <select {...register("categoryId")} className="admin-input">
-                <option value="">Select...</option>
+                <option value="">{t("select_category")}</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name_fr}
@@ -207,47 +221,47 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
               <FieldError message={errors.categoryId?.message} />
             </div>
             <div>
-              <label className="admin-label">Brand</label>
+              <label className="admin-label">{t("brand")}</label>
               <input {...register("brand")} className="admin-input" placeholder="Samsung" />
             </div>
             <div>
-              <label className="admin-label">Price (DH) *</label>
+              <label className="admin-label">{t("price_label")} *</label>
               <input {...register("price")} type="number" step="0.01" className="admin-input" />
               <FieldError message={errors.price?.message} />
             </div>
             <div>
-              <label className="admin-label">Old Price (DH)</label>
-              <input {...register("oldPrice")} type="number" step="0.01" className="admin-input" placeholder="Optional" />
+              <label className="admin-label">{t("old_price")}</label>
+              <input {...register("oldPrice")} type="number" step="0.01" className="admin-input" placeholder={t("optional")} />
             </div>
           </div>
 
           <div>
-            <label className="admin-label">Tags (comma-separated)</label>
+            <label className="admin-label">{t("tags_label")}</label>
             <input {...register("tags")} className="admin-input" placeholder="5G, Fast Charge, USB-C" />
           </div>
         </div>
       )}
 
       {/* ── Media ── */}
-      {activeTab === "Media" && (
+      {activeTab === "tab_media" && (
         <div>
-          <label className="admin-label mb-2">Product Images</label>
+          <label className="admin-label mb-2">{t("product_images")}</label>
           <ImageUploader images={images} onChange={setImages} />
         </div>
       )}
 
       {/* ── Specs ── */}
-      {activeTab === "Specs" && (
+      {activeTab === "tab_specs" && (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <label className="admin-label mb-0">Specifications</label>
+            <label className="admin-label mb-0">{t("specifications")}</label>
             <button
               type="button"
               onClick={addSpecRow}
               className="admin-btn-outline text-xs px-3 py-1.5 flex items-center gap-1"
             >
               <Plus className="w-3.5 h-3.5" />
-              Add Row
+              {t("add_row")}
             </button>
           </div>
           <div className="space-y-2">
@@ -258,13 +272,13 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
                   value={row.key}
                   onChange={(e) => updateSpec(i, "key", e.target.value)}
                   className="admin-input flex-1"
-                  placeholder="Key (e.g. RAM)"
+                  placeholder={t("spec_key_placeholder")}
                 />
                 <input
                   value={row.value}
                   onChange={(e) => updateSpec(i, "value", e.target.value)}
                   className="admin-input flex-1"
-                  placeholder="Value (e.g. 8 GB)"
+                  placeholder={t("spec_value_placeholder")}
                 />
                 <button
                   type="button"
@@ -280,16 +294,16 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
       )}
 
       {/* ── Settings ── */}
-      {activeTab === "Settings" && (
+      {activeTab === "tab_settings" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="admin-label">Stock</label>
+            <label className="admin-label">{t("stock")}</label>
             <input {...register("stock")} type="number" className="admin-input" />
             <FieldError message={errors.stock?.message} />
           </div>
           <div>
-            <label className="admin-label">Warranty</label>
-            <input {...register("warranty")} className="admin-input" placeholder="1 Year Warranty" />
+            <label className="admin-label">{t("warranty")}</label>
+            <input {...register("warranty")} className="admin-input" placeholder="1 Year" />
           </div>
           <div className="flex items-center gap-3">
             <input
@@ -299,7 +313,7 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
               className="w-4 h-4 accent-blue-600"
             />
             <label htmlFor="isNewArrival" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Mark as New Arrival
+              {t("mark_new_arrival")}
             </label>
           </div>
           <div className="flex items-center gap-3">
@@ -310,7 +324,7 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
               className="w-4 h-4 accent-blue-600"
             />
             <label htmlFor="isVisible" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Visible to customers
+              {t("visible_to_customers")}
             </label>
           </div>
         </div>
@@ -324,14 +338,14 @@ export function ProductForm({ categories, defaultValues, mode }: ProductFormProp
           className="admin-btn-primary flex items-center gap-2"
         >
           {saving && <Loader2 className="w-4 h-4 animate-spin" />}
-          {saving ? "Saving..." : mode === "create" ? "Create Product" : "Save Changes"}
+          {saving ? t("saving") : mode === "create" ? t("create_product") : t("save_changes")}
         </button>
         <button
           type="button"
           onClick={() => router.back()}
           className="admin-btn-outline"
         >
-          Cancel
+          {t("cancel")}
         </button>
       </div>
     </form>

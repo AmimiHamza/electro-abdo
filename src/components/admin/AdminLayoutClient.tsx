@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import { Menu } from "lucide-react";
 import { AdminSidebar } from "./AdminSidebar";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAdminT } from "@/hooks/useAdminT";
 
 export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { locale, t, mounted } = useAdminT();
+
+  // Apply RTL direction + lang attr when Arabic is selected.
+  useEffect(() => {
+    if (!mounted) return;
+    const html = document.documentElement;
+    html.setAttribute("dir", locale === "ar" ? "rtl" : "ltr");
+    html.setAttribute("lang", locale);
+  }, [locale, mounted]);
 
   return (
     <SessionProvider>
@@ -29,9 +39,9 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
                 className="fixed inset-0 z-40 bg-black/50 lg:hidden"
               />
               <motion.aside
-                initial={{ x: "-100%" }}
+                initial={{ x: locale === "ar" ? "100%" : "-100%" }}
                 animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
+                exit={{ x: locale === "ar" ? "100%" : "-100%" }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
                 className="fixed inset-y-0 start-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 lg:hidden"
               >
@@ -51,7 +61,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
             >
               <Menu className="w-5 h-5" />
             </button>
-            <span className="font-bold text-gray-900 dark:text-white">Admin Panel</span>
+            <span className="font-bold text-gray-900 dark:text-white">{t("admin_panel")}</span>
           </header>
 
           <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>

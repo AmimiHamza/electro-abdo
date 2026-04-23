@@ -2,8 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { parseSpecs } from "@/lib/utils";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { ProductHeader } from "../../new/ProductHeader";
 
 interface PageProps {
   params: { id: string };
@@ -47,15 +46,7 @@ export default async function EditProductPage({ params }: PageProps) {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-6">
-        <Link href="/admin/products" className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-          <ArrowLeft className="w-4 h-4" />
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Edit Product</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{product.name_fr}</p>
-        </div>
-      </div>
+      <ProductHeader titleKey="edit_product" subtitle={product.name_fr} />
       <div className="admin-card">
         <ProductForm categories={categories} defaultValues={defaultValues} mode="edit" />
       </div>

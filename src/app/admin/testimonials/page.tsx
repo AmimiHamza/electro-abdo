@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Plus, Pencil, Trash2, Loader2, Star, X, Check } from "lucide-react";
+import { useAdminT } from "@/hooks/useAdminT";
 
 interface Testimonial {
   id: string;
@@ -13,6 +14,7 @@ interface Testimonial {
 }
 
 function TestimonialModal({ initial, onSave, onClose }: { initial?: Testimonial; onSave: () => void; onClose: () => void }) {
+  const { t } = useAdminT();
   const [form, setForm] = useState({
     name: initial?.name ?? "",
     text_fr: initial?.text_fr ?? "",
@@ -24,13 +26,13 @@ function TestimonialModal({ initial, onSave, onClose }: { initial?: Testimonial;
   const [error, setError] = useState("");
 
   const handleSave = async () => {
-    if (!form.name || !form.text_fr) { setError("Name and text FR required"); return; }
+    if (!form.name || !form.text_fr) { setError(t("name_text_required")); return; }
     setSaving(true);
     const url = initial ? `/api/admin/testimonials/${initial.id}` : "/api/admin/testimonials";
     const method = initial ? "PUT" : "POST";
     const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
     setSaving(false);
-    if (!res.ok) { setError("Failed to save"); return; }
+    if (!res.ok) { setError(t("failed_to_save")); return; }
     onSave();
     onClose();
   };
@@ -39,17 +41,17 @@ function TestimonialModal({ initial, onSave, onClose }: { initial?: Testimonial;
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-lg overflow-y-auto max-h-[90vh]">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-bold text-lg text-gray-900 dark:text-white">{initial ? "Edit Review" : "New Review"}</h2>
+          <h2 className="font-bold text-lg text-gray-900 dark:text-white">{initial ? t("edit_review") : t("new_review")}</h2>
           <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"><X className="w-4 h-4" /></button>
         </div>
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
         <div className="space-y-3">
           <div>
-            <label className="admin-label">Customer Name *</label>
+            <label className="admin-label">{t("customer_name")} *</label>
             <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="admin-input" />
           </div>
           <div>
-            <label className="admin-label">Rating</label>
+            <label className="admin-label">{t("rating")}</label>
             <div className="flex gap-1 mt-1">
               {[1,2,3,4,5].map((star) => (
                 <button key={star} type="button" onClick={() => setForm({ ...form, rating: star })} className={`transition-colors ${star <= form.rating ? "text-yellow-400" : "text-gray-300"}`}>
@@ -58,16 +60,16 @@ function TestimonialModal({ initial, onSave, onClose }: { initial?: Testimonial;
               ))}
             </div>
           </div>
-          <div><label className="admin-label">Text (FR) *</label><textarea value={form.text_fr} onChange={(e) => setForm({ ...form, text_fr: e.target.value })} rows={3} className="admin-input resize-none" /></div>
-          <div><label className="admin-label">Text (AR)</label><textarea value={form.text_ar} onChange={(e) => setForm({ ...form, text_ar: e.target.value })} rows={3} className="admin-input resize-none" dir="rtl" /></div>
-          <div><label className="admin-label">Text (EN)</label><textarea value={form.text_en} onChange={(e) => setForm({ ...form, text_en: e.target.value })} rows={3} className="admin-input resize-none" /></div>
+          <div><label className="admin-label">{t("text_fr")} *</label><textarea value={form.text_fr} onChange={(e) => setForm({ ...form, text_fr: e.target.value })} rows={3} className="admin-input resize-none" /></div>
+          <div><label className="admin-label">{t("text_ar")}</label><textarea value={form.text_ar} onChange={(e) => setForm({ ...form, text_ar: e.target.value })} rows={3} className="admin-input resize-none" dir="rtl" /></div>
+          <div><label className="admin-label">{t("text_en")}</label><textarea value={form.text_en} onChange={(e) => setForm({ ...form, text_en: e.target.value })} rows={3} className="admin-input resize-none" /></div>
         </div>
         <div className="flex gap-2 mt-5">
           <button onClick={handleSave} disabled={saving} className="admin-btn-primary flex items-center gap-2">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-            {saving ? "Saving..." : "Save"}
+            {saving ? t("saving") : t("save")}
           </button>
-          <button onClick={onClose} className="admin-btn-outline">Cancel</button>
+          <button onClick={onClose} className="admin-btn-outline">{t("cancel")}</button>
         </div>
       </div>
     </div>
@@ -75,6 +77,7 @@ function TestimonialModal({ initial, onSave, onClose }: { initial?: Testimonial;
 }
 
 export default function TestimonialsPage() {
+  const { t } = useAdminT();
   const [items, setItems] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; item?: Testimonial }>({ open: false });
@@ -89,7 +92,7 @@ export default function TestimonialsPage() {
   useEffect(() => { load(); }, [load]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this review?")) return;
+    if (!confirm(t("delete_review_confirm"))) return;
     await fetch(`/api/admin/testimonials/${id}`, { method: "DELETE" });
     load();
   };
@@ -97,9 +100,9 @@ export default function TestimonialsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Testimonials</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("testimonials_title")}</h1>
         <button onClick={() => setModal({ open: true })} className="admin-btn-primary flex items-center gap-1.5">
-          <Plus className="w-4 h-4" /> Add Review
+          <Plus className="w-4 h-4" /> {t("add_review")}
         </button>
       </div>
 
@@ -130,7 +133,7 @@ export default function TestimonialsPage() {
               </div>
             </div>
           ))}
-          {items.length === 0 && <p className="text-gray-400 col-span-2 text-center py-12">No reviews yet.</p>}
+          {items.length === 0 && <p className="text-gray-400 col-span-2 text-center py-12">{t("no_reviews")}</p>}
         </div>
       )}
 

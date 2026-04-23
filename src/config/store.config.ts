@@ -6,9 +6,9 @@ export const storeConfig = {
     ar: "متجرك الإلكتروني رقم 1",
     en: "Your #1 Electronics Store",
   },
-  whatsappNumber: "212600000000", // With country code, no +
+  whatsappNumber: "212702022010", // With country code, no +
   email: "contact@techshop.ma",
-  phone: "+212 600 000 000",
+  phone: "+212 702 022 010",
   address: {
     fr: "123 Rue Example, Casablanca",
     ar: "123 شارع المثال، الدار البيضاء",

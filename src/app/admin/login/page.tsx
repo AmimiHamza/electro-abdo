@@ -3,8 +3,17 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Zap, Eye, EyeOff, Loader2 } from "lucide-react";
+import { useAdminT } from "@/hooks/useAdminT";
+import type { AdminLocale } from "@/i18n/admin";
+
+const loginLanguages: { code: AdminLocale; label: string; flag: string }[] = [
+  { code: "fr", label: "FR", flag: "🇫🇷" },
+  { code: "ar", label: "AR", flag: "🇲🇦" },
+  { code: "en", label: "EN", flag: "🇬🇧" },
+];
 
 export default function AdminLoginPage() {
+  const { t, locale, setLocale } = useAdminT();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +34,7 @@ export default function AdminLoginPage() {
     setLoading(false);
 
     if (result?.error) {
-      setError("Invalid username or password");
+      setError(t("invalid_credentials"));
     } else {
       window.location.href = "/admin/dashboard";
     }
@@ -34,13 +43,32 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
+        {/* Language switcher */}
+        <div className="flex justify-center gap-1.5 mb-6">
+          {loginLanguages.map((lang) => (
+            <button
+              key={lang.code}
+              type="button"
+              onClick={() => setLocale(lang.code)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                locale === lang.code
+                  ? "bg-blue-600 text-white"
+                  : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-blue-400"
+              }`}
+            >
+              <span>{lang.flag}</span>
+              <span>{lang.label}</span>
+            </button>
+          ))}
+        </div>
+
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-400 shadow-lg mb-4">
             <Zap className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Login</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Sign in to manage your store</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("login_title")}</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{t("login_subtitle")}</p>
         </div>
 
         <form
@@ -55,7 +83,7 @@ export default function AdminLoginPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Username
+              {t("username")}
             </label>
             <input
               type="text"
@@ -70,7 +98,7 @@ export default function AdminLoginPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Password
+              {t("password")}
             </label>
             <div className="relative">
               <input
@@ -98,7 +126,7 @@ export default function AdminLoginPage() {
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2"
           >
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? t("signing_in") : t("sign_in")}
           </button>
         </form>
       </div>
